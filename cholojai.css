@@ -1,0 +1,229 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #7fffd4, #40e0d0);
+  padding: 15px 40px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.navbar > div:first-child {
+  color: #b35627;
+}
+
+.navbar h1 {
+  font-size: 28px;
+}
+
+.navbar h6 {
+  font-size: 12px;
+  font-style: italic;
+  color: #8b4e1e;
+}
+
+.navright {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: #7b3f00;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  background: #e04de8;
+  color: #fff;
+}
+
+/* ===== CONTAINER ===== */
+.Container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 20px;
+}
+
+/* ===== CARD COLORS + BOX COLORS (CSS VARIABLES) ===== */
+/* ===== CARD COLORS + BUTTON COLOR VARIABLES ===== */
+.Ertiga {
+  background: aqua;
+  --btn-bg: #007f7f;
+}
+
+.Rumion {
+  background: rgb(142, 244, 75);
+  --btn-bg: #2e7d32;
+}
+
+.Scorpio {
+  background: rgb(230, 128, 51);
+  --btn-bg: #bf360c;
+}
+
+.Dzire {
+  background: rgb(198, 49, 240);
+  --btn-bg: #6a1b9a;
+}
+
+/* ===== CARD COMMON ===== */
+.Ertiga,
+.Rumion,
+.Scorpio,
+.Dzire {
+  padding: 30px 25px;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+/* ===== BOOK DETAILS (GLASS BOXES) ===== */
+.Ertiga p,
+.Rumion p,
+.Scorpio p,
+.Dzire p {
+  background: var(--box-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+/* Remove glass background from button wrapper */
+.Ertiga p:last-child,
+.Rumion p:last-child,
+.Scorpio p:last-child,
+.Dzire p:last-child {
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+
+/* Hover effect */
+.Ertiga p:hover,
+.Rumion p:hover,
+.Scorpio p:hover,
+.Dzire p:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0.15)
+  );
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== LABELS ===== */
+.Ertiga p label,
+.Rumion p label,
+.Scorpio p label,
+.Dzire p label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  min-width: 90px;
+  text-align: right;
+}
+
+/* ===== INPUTS ===== */
+.Ertiga input,
+.Rumion input,
+.Scorpio input,
+.Dzire input {
+  width: 100%;
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.4);
+  font-size: 14px;
+  background: rgba(255,255,255,0.2);
+  color: #222;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input[type="date"],
+input[type="time"] {
+  height: 40px;
+}
+
+/* Input focus */
+.Ertiga input:focus,
+.Rumion input:focus,
+.Scorpio input:focus,
+.Dzire input:focus {
+  border-color: #fff;
+  box-shadow: 0 0 8px rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.3);
+}
+
+/* ===== RADIO BUTTONS ===== */
+.Ertiga input[type="radio"],
+.Rumion input[type="radio"],
+.Scorpio input[type="radio"],
+.Dzire input[type="radio"] {
+  width: auto;
+  margin: 0 6px 0 0;
+}
+
+/* ===== BOOK DETAILS BUTTON ===== */
+.Ertiga button,
+.Rumion button,
+.Scorpio button,
+.Dzire button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background-color: var(--btn-bg);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+.Ertiga button:hover,
+.Rumion button:hover,
+.Scorpio button:hover,
+.Dzire button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .navright {
+    gap: 15px;
+    font-size: 16px;
+  }
+}
