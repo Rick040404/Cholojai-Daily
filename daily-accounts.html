@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Accounts</title>
+
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Verdana;}
+body{background:#eef2f7;padding:30px;}
+
+.container{
+  max-width:800px;
+  background:white;
+  padding:30px;
+  margin:auto;
+  border-radius:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+h2{text-align:center;margin-bottom:20px;}
+
+label{font-weight:600;margin-top:14px;display:block;}
+
+select,input{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.trip-box{
+  background:#f9f9f9;
+  padding:18px;
+  border-radius:18px;
+  margin-top:18px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,.05);
+}
+
+.trip-title{
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.total-box{
+  margin-top:22px;
+  padding:16px;
+  border-radius:16px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#00c853,#64dd17);
+  color:white;
+}
+
+button{
+  margin-top:25px;
+  width:100%;
+  padding:14px;
+  font-size:17px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(90deg,#ff512f,#dd2476);
+  color:white;
+  cursor:pointer;
+}
+
+.success-msg{
+  display:none;
+  text-align:center;
+  margin-top:16px;
+  font-weight:bold;
+  color:green;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>🚘 Daily Accounts</h2>
+
+<form id="dailyForm">
+
+<!-- DATE -->
+<label>Date</label>
+<input type="date" name="date" id="dateField" required>
+
+<label>Car Name</label>
+<select name="car_name" required>
+  <option value="">Select Car</option>
+  <option>ERTIGA(0404)</option>
+  <option>RUMION(5475)</option>
+  <option>SCORPIO(3242)</option>
+  <option>DZIRE(6856)</option>
+</select>
+
+<label>Number of Trips</label>
+<select id="tripCount" name="trip_count">
+  <option value="1" selected>1 Trip</option>
+  <option value="2">2 Trips</option>
+  <option value="3">3 Trips</option>
+  <option value="4">4 Trips</option>
+  <option value="5">5 Trips</option>
+</select>
+
+<div id="tripsContainer"></div>
+
+<label>Total Fare</label>
+<input type="number" name="total_fare" id="totalFare" required>
+
+<div class="total-box" id="profitBox">Profit: ₹0</div>
+<input type="hidden" name="profit" id="profitInput">
+
+<!-- hidden combined trip details -->
+<input type="hidden" name="trip_details" id="tripDetails">
+
+<button type="submit">Save Daily Account</button>
+<div class="success-msg" id="success">✅ Saved Successfully</div>
+
+</form>
+</div>
+
+<script>
+const WEB_APP_URL ="https://script.google.com/macros/s/AKfycbzV23ASmIalOCelVGcGaUYCBLMuEeUfeWtT5N2wCOlZKYeXBRCwvZDEe8EjS4NlViEePA/exec"
+
+const tripSelect = document.getElementById("tripCount");
+const tripsContainer = document.getElementById("tripsContainer");
+const fareInput = document.getElementById("totalFare");
+const profitBox = document.getElementById("profitBox");
+const profitInput = document.getElementById("profitInput");
+const success = document.getElementById("success");
+const dateField = document.getElementById("dateField");
+const tripDetailsInput = document.getElementById("tripDetails");
+
+/* ===== DEFAULT DATE ===== */
+dateField.value = new Date().toISOString().split("T")[0];
+
+/* ===== CREATE DEFAULT 1 TRIP ===== */
+createTrips(1);
+
+tripSelect.addEventListener("change", () => {
+  createTrips(tripSelect.value);
+  calculateProfit();
+});
+
+function createTrips(count){
+  tripsContainer.innerHTML = "";
+  for(let i=1;i<=count;i++){
+    tripsContainer.innerHTML += `
+      <div class="trip-box">
+        <div class="trip-title">Trip ${i}</div>
+
+        <div class="grid-2">
+          <input type="text" placeholder="From Location" class="location">
+          <input type="text" placeholder="To Location" class="location">
+        </div>
+
+        <div class="grid-2">
+          <input type="number" placeholder="Kilometers" class="km">
+          <input type="number" placeholder="Fuel Cost" class="cost">
+        </div>
+
+        <div class="grid-3">
+          <input type="number" placeholder="Driver Cost" class="cost">
+          <input type="number" placeholder="Toll Cost" class="cost">
+        </div>
+      </div>`;
+  }
+}
+
+/* ===== CALCULATE PROFIT ===== */
+document.addEventListener("input", calculateProfit);
+
+function calculateProfit(){
+  let totalCost = 0;
+  document.querySelectorAll(".cost").forEach(c=>{
+    totalCost += Number(c.value)||0;
+  });
+
+  const profit = (Number(fareInput.value)||0) - totalCost;
+  profitBox.innerText = "Profit: ₹" + profit;
+  profitInput.value = profit;
+}
+
+/* ===== SUBMIT TO GOOGLE SHEET ===== */
+document.getElementById("dailyForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  // collect trip details
+  let details = [];
+  document.querySelectorAll(".trip-box").forEach((box,i)=>{
+    const from = box.querySelectorAll(".location")[0].value;
+    const to = box.querySelectorAll(".location")[1].value;
+    const km = box.querySelector(".km").value;
+    details.push(`Trip ${i+1}: ${from} → ${to}, ${km} km`);
+  });
+  tripDetailsInput.value = details.join(" | ");
+
+  fetch(WEB_APP_URL,{
+    method:"POST",
+    body:new FormData(this)
+  })
+  .then(res=>res.text())
+  .then(text=>{
+    if(text.includes("Success")){
+      success.style.display="block";
+      this.reset();
+      dateField.value = new Date().toISOString().split("T")[0];
+      createTrips(1);
+      profitBox.innerText="Profit: ₹0";
+      setTimeout(()=>success.style.display="none",3000);
+    } else {
+      alert("Save failed");
+    }
+  })
+  .catch(()=>alert("Server error"));
+});
+</script>
+
+</body>
+</html>
+
