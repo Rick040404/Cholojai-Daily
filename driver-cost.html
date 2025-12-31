@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Driver Salary Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #007bff;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Driver Salary Entry</h2>
+
+  <form>
+
+    <!-- Driver Name -->
+    <label>Driver Name</label>
+    <select id="driverSelect" onchange="toggleNewDriver()" required>
+      <option value="">Select Driver</option>
+      <option value="Bacchu">Bacchu</option>
+      <option value="Prasanta">Prasanta</option>
+      <option value="Samrat">Samrat</option>
+      <option value="new">➕ Add New Driver</option>
+    </select>
+
+    <!-- New Driver -->
+    <input
+      type="text"
+      id="newDriver"
+      class="hidden"
+      placeholder="Enter new driver name"
+    >
+
+    <!-- Salary -->
+    <label>Salary Amount (₹)</label>
+    <input type="number" placeholder="Amount" required>
+
+    <!-- Payment Date -->
+    <label>Payment Date</label>
+    <input type="date" id="paymentDate" required>
+
+    <!-- Payment Time -->
+    <label>Payment Time</label>
+    <input type="time" id="paymentTime" required>
+
+    <!-- No of Trips (MOVED HERE) -->
+    <label>No. of Trips</label>
+    <input type="number" min="1" value="1" required>
+
+    <!-- Trip -->
+    <label>Trip (From → To)</label>
+    <input type="text" placeholder="Jamalpur → Eco Park" required>
+
+    <!-- Journey Date -->
+    <label>Journey Date</label>
+    <input type="date" required>
+
+    <button type="submit">Save Salary Entry</button>
+
+  </form>
+</div>
+
+<script>
+  function toggleNewDriver() {
+    const select = document.getElementById("driverSelect");
+    const newDriver = document.getElementById("newDriver");
+
+    if (select.value === "new") {
+      newDriver.classList.remove("hidden");
+      newDriver.required = true;
+    } else {
+      newDriver.classList.add("hidden");
+      newDriver.required = false;
+      newDriver.value = "";
+    }
+  }
+
+  // Set current date & time by default
+  window.onload = () => {
+    const now = new Date();
+
+    document.getElementById("paymentDate").value =
+      now.toISOString().split("T")[0];
+
+    document.getElementById("paymentTime").value =
+      now.toTimeString().slice(0,5);
+  };
+</script>
+
+</body>
+</html>
