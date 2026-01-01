@@ -95,7 +95,7 @@ button{
 <h2>🚘 Daily Accounts</h2>
 
 <form id="dailyForm">
-
+  <input type="hidden" name="type" value="daily">
 <!-- DATE -->
 <label>Date</label>
 <input type="date" name="date" id="dateField" required>
@@ -134,9 +134,14 @@ button{
 
 </form>
 </div>
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
 
 <script>
-const WEB_APP_URL ="https://script.google.com/macros/s/AKfycbzV23ASmIalOCelVGcGaUYCBLMuEeUfeWtT5N2wCOlZKYeXBRCwvZDEe8EjS4NlViEePA/exec"
+const WEB_APP_URL ="https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec"
 
 const tripSelect = document.getElementById("tripCount");
 const tripsContainer = document.getElementById("tripsContainer");
@@ -234,4 +239,3 @@ document.getElementById("dailyForm").addEventListener("submit",function(e){
 
 </body>
 </html>
-
