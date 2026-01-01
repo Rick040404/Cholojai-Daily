@@ -6,26 +6,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       background: #f4f6f8;
       padding: 20px;
     }
 
+    /* CARD */
     .card {
-      max-width: 420px;
-      margin: auto;
+      max-width: 480px;
+      margin: 30px auto;
       background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
-    h2 {
-      text-align: center;
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 20px;
     }
 
+    .header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    /* FORM */
     label {
       display: block;
       font-weight: 600;
@@ -35,7 +49,7 @@
     input, select {
       width: 100%;
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #ccc;
       font-size: 14px;
     }
@@ -44,20 +58,59 @@
       display: none;
     }
 
+    /* MAIN SUBMIT BUTTON */
     button {
-      margin-top: 20px;
+      margin-top: 22px;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
-      border-radius: 10px;
-      background: #007bff;
+      border-radius: 12px;
+      background: linear-gradient(90deg,#007bff,#0056b3);
       color: #fff;
       font-size: 16px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #0056b3;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* HISTORY BUTTON */
+    .history-btn {
+      width: auto;
+      margin-top: 0;
+      background: transparent;
+      border: 1px solid #007bff;
+      color: #007bff;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .history-btn:hover {
+      background: #007bff;
+      color: #fff;
+    }
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ffcc00, #ffeb3b);
+  color: #1f1f1f;
+}
+
+    /* SUCCESS MESSAGE */
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -65,13 +118,22 @@
 <body>
 
 <div class="card">
-  <h2>Driver Salary Entry</h2>
 
-  <form>
+  <!-- HEADER -->
+  <div class="header">
+  <h2 class="title">💰 Driver Salary Entry</h2>
+  <button type="button" class="history-btn" onclick="openHistory()">📜 History</button>
+</div>
 
-    <!-- Driver Name -->
+  <!-- FORM -->
+  <form id="salaryForm">
+
+    <!-- REQUIRED FOR BACKEND -->
+    <input type="hidden" name="type" value="salary">
+
+    <!-- DRIVER NAME -->
     <label>Driver Name</label>
-    <select id="driverSelect" onchange="toggleNewDriver()" required>
+    <select id="driverSelect" name="driver_name" onchange="toggleNewDriver()" required>
       <option value="">Select Driver</option>
       <option value="Bacchu">Bacchu</option>
       <option value="Prasanta">Prasanta</option>
@@ -79,68 +141,109 @@
       <option value="new">➕ Add New Driver</option>
     </select>
 
-    <!-- New Driver -->
-    <input
-      type="text"
-      id="newDriver"
-      class="hidden"
-      placeholder="Enter new driver name"
-    >
+    <!-- NEW DRIVER -->
+    <input type="text" id="newDriver" class="hidden" placeholder="Enter new driver name">
 
-    <!-- Salary -->
+    <!-- SALARY -->
     <label>Salary Amount (₹)</label>
-    <input type="number" placeholder="Amount" required>
+    <input type="number" name="salary_amount" required>
 
-    <!-- Payment Date -->
+    <!-- PAYMENT DATE -->
     <label>Payment Date</label>
-    <input type="date" id="paymentDate" required>
+    <input type="date" id="paymentDate" name="payment_date" required>
 
-    <!-- Payment Time -->
+    <!-- PAYMENT TIME -->
     <label>Payment Time</label>
-    <input type="time" id="paymentTime" required>
+    <input type="time" id="paymentTime" name="payment_time" required>
 
-    <!-- No of Trips (MOVED HERE) -->
+    <!-- TRIP COUNT -->
     <label>No. of Trips</label>
-    <input type="number" min="1" value="1" required>
+    <input type="number" name="trip_count" min="1" value="1" required>
 
-    <!-- Trip -->
+    <!-- TRIP ROUTE -->
     <label>Trip (From → To)</label>
-    <input type="text" placeholder="Jamalpur → Eco Park" required>
+    <input type="text" name="trip_route" placeholder="Jamalpur → Eco Park" required>
 
-    <!-- Journey Date -->
+    <!-- JOURNEY DATE -->
     <label>Journey Date</label>
-    <input type="date" required>
+    <input type="date" name="journey_date" required>
 
+    <!-- SUBMIT -->
     <button type="submit">Save Salary Entry</button>
+
+    <div class="success" id="successMsg">✅ Saved Successfully</div>
 
   </form>
 </div>
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
 
 <script>
-  function toggleNewDriver() {
-    const select = document.getElementById("driverSelect");
-    const newDriver = document.getElementById("newDriver");
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec";
 
-    if (select.value === "new") {
-      newDriver.classList.remove("hidden");
-      newDriver.required = true;
-    } else {
-      newDriver.classList.add("hidden");
-      newDriver.required = false;
-      newDriver.value = "";
-    }
+/* OPEN SALARY HISTORY PAGE */
+function openHistory() {
+  window.location.href = "salaryhistory.html";
+}
+
+/* TOGGLE NEW DRIVER */
+function toggleNewDriver() {
+  const select = document.getElementById("driverSelect");
+  const newDriver = document.getElementById("newDriver");
+
+  if (select.value === "new") {
+    newDriver.classList.remove("hidden");
+    newDriver.required = true;
+  } else {
+    newDriver.classList.add("hidden");
+    newDriver.required = false;
+    newDriver.value = "";
+  }
+}
+
+/* DEFAULT DATE & TIME */
+window.onload = () => {
+  const now = new Date();
+  document.getElementById("paymentDate").value = now.toISOString().split("T")[0];
+  document.getElementById("paymentTime").value = now.toTimeString().slice(0,5);
+};
+
+/* SUBMIT FORM */
+document.getElementById("salaryForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const btn = this.querySelector("button");
+  btn.disabled = true;
+
+  const driverSelect = document.getElementById("driverSelect");
+  const newDriver = document.getElementById("newDriver");
+
+  if (driverSelect.value === "new") {
+    driverSelect.value = newDriver.value;
   }
 
-  // Set current date & time by default
-  window.onload = () => {
-    const now = new Date();
-
-    document.getElementById("paymentDate").value =
-      now.toISOString().split("T")[0];
-
-    document.getElementById("paymentTime").value =
-      now.toTimeString().slice(0,5);
-  };
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    body: new FormData(this)
+  })
+  .then(res => res.text())
+  .then(text => {
+    if (text.includes("Success")) {
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
+      setTimeout(() => {
+        document.getElementById("successMsg").style.display = "none";
+      }, 3000);
+    } else {
+      alert("Save failed");
+    }
+  })
+  .catch(() => alert("Server error"))
+  .finally(() => btn.disabled = false);
+});
 </script>
 
 </body>
