@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Cholo Jai Tour & Travels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-card {
+      background: #fff;
+      padding: 30px;
+      width: 100%;
+      max-width: 360px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .brand-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      background: linear-gradient(90deg, #ff9800, #ff5722);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-tagline {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg,#007bff,#0056b3);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .remember-row {
+  margin-top: 12px;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+}
+
+.remember-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.remember-label span {
+  line-height: 1;
+}
+
+
+    .error {
+      display: none;
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 40px; /* space for eye icon */
+}
+
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  color: #666;
+}
+
+.eye-icon:hover {
+  color: #007bff;
+}
+  </style>
+</head>
+
+<body>
+
+<div class="login-card">
+  <h2>🔐 Login</h2>
+
+  <h3 class="brand-title">Cholo Jai Tour & Travels</h3>
+  <p class="brand-tagline">Car Rental Management System</p>
+
+  <input
+    type="text"
+    id="username"
+    value="admin"
+    placeholder="Username"
+    autocomplete="off"
+  >
+
+    <div class="password-wrapper">
+         <input type="password" id="password" placeholder="Password">
+         <span class="eye-icon" onclick="togglePassword()">👁</span>
+    </div>
+
+
+  <button onclick="login()">Login</button>
+
+  <div class="remember-row">
+  <label class="remember-label">
+    <input type="checkbox" id="rememberMe">
+    <span>Remember my device (24 hours)</span>
+  </label>
+</div>
+
+  <div class="error" id="errorMsg">Invalid username or password</div>
+</div>
+
+<script>
+/* AUTO LOGIN CHECK (24 HOURS) */
+(function checkSession() {
+  const loggedIn = localStorage.getItem("loggedIn");
+  const loginTime = localStorage.getItem("loginTime");
+  const remember = localStorage.getItem("remember24h");
+
+  if (loggedIn === "true" && loginTime && remember === "true") {
+    const now = Date.now();
+    const hours24 = 24 * 60 * 60 * 1000;
+
+    if (now - loginTime < hours24) {
+      window.location.href = "index.html";
+    } else {
+      clearSession();
+    }
+  }
+})();
+function togglePassword() {
+  const pwd = document.getElementById("password");
+  const eye = document.querySelector(".eye-icon");
+
+  if (pwd.type === "password") {
+    pwd.type = "text";
+    eye.textContent = "🙈";
+  } else {
+    pwd.type = "password";
+    eye.textContent = "👁";
+  }
+}
+
+/* LOGIN FUNCTION */
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const remember = document.getElementById("rememberMe").checked;
+
+  const VALID_USER = "admin";
+  const VALID_PASS = "0404";
+
+  if (username === VALID_USER && password === VALID_PASS) {
+    const now = Date.now();
+
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("loginTime", now);
+
+    if (remember) {
+      localStorage.setItem("remember24h", "true");
+    } else {
+      localStorage.removeItem("remember24h");
+    }
+
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("errorMsg").style.display = "block";
+  }
+}
+
+/* CLEAR SESSION */
+function clearSession() {
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("loginTime");
+  localStorage.removeItem("remember24h");
+}
+</script>
+
+</body>
+</html>
