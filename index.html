@@ -102,7 +102,7 @@
         </div>
         <div class="navright">
             
-                <a href="#"class=nav-link>Home</a>
+                <a href="upcoming.html" class="nav-link">Upcoming Booking</a>
                 <a href="daily-accounts.html" class="nav-link">Daily Accounts</a>
                <a href="driver-cost.html" class="nav-link">Driver Salary</a>
 
@@ -180,8 +180,12 @@
                  <p>
                     <label>Advance amount:</label>
                     <input type="number" name="advance_amount" placeholder="Amount">
-                 </p>
+                  </p>
+                  <p>
+                    <label>Customer Mobile (optional)</label>
+                       <input type="tel" name="mobile_no" placeholder="10 digit mobile number" ></p>
                    <input type="hidden" name="car_name" value="ERTIGA(0404)">
+                   <input type="hidden" name="chat_id" value="8463450251">
                  <p>
                     <input type="submit" value="Book Details">
                  </p>
@@ -218,7 +222,17 @@
                     <label>Advance amount:</label>
                     <input type="number" name="advance_amount" placeholder="Amount">
                  </p>
+                 <p>
+  <label>Customer Mobile (optional)</label>
+  <input
+    type="tel"
+    name="mobile_no"
+    placeholder="10 digit mobile number"
+  >
+</p>
                   <input type="hidden" name="car_name" value="RUMION(5475)">
+                  <input type="hidden" name="chat_id" value="8463450251">
+
                  <p>
                     <input type="submit" value="Book Details">
                  </p>
@@ -255,7 +269,16 @@
                     <label>Advance amount:</label>
                     <input type="number" name="advance_amount" placeholder="Amount">
                  </p>
+                 <p>
+  <label>Customer Mobile (optional)</label>
+  <input
+    type="tel"
+    name="mobile_no"
+    placeholder="10 digit mobile number"
+  >
+</p>
                   <input type="hidden" name="car_name" value="SCORPIO(3242)">
+                  <input type="hidden" name="chat_id" value="8463450251">
                  <p>
                     <input type="submit" value="Book Details">
                  </p>
@@ -292,7 +315,17 @@
                     <label>Advance amount:</label>
                     <input type="number" name="advance_amount" placeholder="Amount">
                  </p>
+                 <p>
+  <label>Customer Mobile (optional)</label>
+  <input
+    type="tel"
+    name="mobile_no"
+    placeholder="10 digit mobile number"
+  >
+</p>
                   <input type="hidden" name="car_name" value="DZIRE(6856)">
+                  <input type="hidden" name="chat_id" value="8463450251">
+
                  <p>
                     <input type="submit" value="Book Details">
                  </p>
@@ -317,11 +350,11 @@ function hideLoader() {
 }
     </script>
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec";
+const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec";
 
 showLoader();
 
-fetch(WEB_APP_URL + "?action=dashboard")
+fetch(DASHBOARD_API_URL + "?action=dashboard")
   .then(res => res.json())
   .then(data => {
     document.getElementById("todayTrips").innerText = data.todayTrips;
@@ -334,7 +367,7 @@ fetch(WEB_APP_URL + "?action=dashboard")
 
 <script>
   
- const WEB_APP_URL="https://script.google.com/macros/s/AKfycbxoBVuarJh8m7a9GhPqAlYnC-MscJCiNVMWs53pxX2n6F11sVLkCVALf1NsqJGrO-6Phg/exec";
+ const BOOKING_API_URL="https://script.google.com/macros/s/AKfycbxoBVuarJh8m7a9GhPqAlYnC-MscJCiNVMWs53pxX2n6F11sVLkCVALf1NsqJGrO-6Phg/exec";
 
   document.querySelectorAll(".bookingForm").forEach(form => {
 
@@ -343,7 +376,7 @@ fetch(WEB_APP_URL + "?action=dashboard")
 
       const successMsg = form.querySelector(".success-msg");
 
-      fetch(WEB_APP_URL, {
+      fetch(BOOKING_API_URL, {
         method: "POST",
         body: new FormData(form)
       })
