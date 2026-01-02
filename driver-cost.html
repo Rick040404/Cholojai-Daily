@@ -128,10 +128,8 @@
   <!-- FORM -->
   <form id="salaryForm">
 
-    <!-- REQUIRED FOR BACKEND -->
     <input type="hidden" name="type" value="salary">
 
-    <!-- DRIVER NAME -->
     <label>Driver Name</label>
     <select id="driverSelect" name="driver_name" onchange="toggleNewDriver()" required>
       <option value="">Select Driver</option>
@@ -184,12 +182,10 @@ if (localStorage.getItem("loggedIn") !== "true") {
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec";
 
-/* OPEN SALARY HISTORY PAGE */
 function openHistory() {
   window.location.href = "salaryhistory.html";
 }
 
-/* TOGGLE NEW DRIVER */
 function toggleNewDriver() {
   const select = document.getElementById("driverSelect");
   const newDriver = document.getElementById("newDriver");
@@ -204,7 +200,6 @@ function toggleNewDriver() {
   }
 }
 
-/* DEFAULT DATE & TIME */
 window.onload = () => {
   const now = new Date();
   document.getElementById("paymentDate").value = now.toISOString().split("T")[0];
