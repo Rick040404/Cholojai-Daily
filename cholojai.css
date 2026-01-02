@@ -6,7 +6,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===== NAVBAR ===== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -48,7 +47,6 @@
   color: #fff;
 }
 
-/* ===== CONTAINER ===== */
 .Container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -56,8 +54,6 @@
   margin: 20px;
 }
 
-/* ===== CARD COLORS + BOX COLORS (CSS VARIABLES) ===== */
-/* ===== CARD COLORS + BUTTON COLOR VARIABLES ===== */
 .Ertiga {
   background: aqua;
   --btn-bg: #007f7f;
@@ -78,7 +74,6 @@
   --btn-bg: #6a1b9a;
 }
 
-/* ===== CARD COMMON ===== */
 .Ertiga,
 .Rumion,
 .Scorpio,
@@ -89,7 +84,6 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
-/* ===== BOOK DETAILS (GLASS BOXES) ===== */
 .Ertiga p,
 .Rumion p,
 .Scorpio p,
@@ -109,7 +103,7 @@
   transition: all 0.3s ease;
   white-space: nowrap;
 }
-/* Remove glass background from button wrapper */
+
 .Ertiga p:last-child,
 .Rumion p:last-child,
 .Scorpio p:last-child,
@@ -119,8 +113,6 @@
   border: none;
 }
 
-
-/* Hover effect */
 .Ertiga p:hover,
 .Rumion p:hover,
 .Scorpio p:hover,
@@ -134,7 +126,6 @@
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-/* ===== LABELS ===== */
 .Ertiga p label,
 .Rumion p label,
 .Scorpio p label,
@@ -146,7 +137,6 @@
   text-align: right;
 }
 
-/* ===== INPUTS ===== */
 .Ertiga input,
 .Rumion input,
 .Scorpio input,
@@ -167,8 +157,6 @@ input[type="date"],
 input[type="time"] {
   height: 40px;
 }
-
-/* Input focus */
 .Ertiga input:focus,
 .Rumion input:focus,
 .Scorpio input:focus,
@@ -177,8 +165,6 @@ input[type="time"] {
   box-shadow: 0 0 8px rgba(255,255,255,0.5);
   background: rgba(255,255,255,0.3);
 }
-
-/* ===== RADIO BUTTONS ===== */
 .Ertiga input[type="radio"],
 .Rumion input[type="radio"],
 .Scorpio input[type="radio"],
@@ -187,7 +173,6 @@ input[type="time"] {
   margin: 0 6px 0 0;
 }
 
-/* ===== BOOK DETAILS BUTTON ===== */
 .Ertiga button,
 .Rumion button,
 .Scorpio button,
@@ -212,9 +197,6 @@ input[type="time"] {
   transform: translateY(-2px);
   filter: brightness(1.15);
 }
-
-
-/* ===== MOBILE FIX ===== */
 @media (max-width: 480px) {
   .navbar {
     flex-direction: column;
@@ -226,4 +208,23 @@ input[type="time"] {
     gap: 15px;
     font-size: 16px;
   }
+}
+.history-btn-wrap {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.history-btn {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.history-btn:hover {
+  background: #1a252f;
 }
