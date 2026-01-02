@@ -11,6 +11,32 @@
       font-family: 'Segoe UI', Arial, sans-serif;
       padding: 20px;
     }
+    .loader-wrapper {
+  display: none;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-wrapper p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
 
     .card {
       max-width: 900px;
@@ -97,6 +123,27 @@
 .table-wrap {
   overflow-x: auto;
 }
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-item label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+.reset-btn {
+  height: 42px;
+  align-self: flex-end;
+}
+.filters {
+  position: sticky;
+  top: 0;
+  background: #f4f6f8;
+  z-index: 10;
+}
+
 @media (max-width: 600px) {
   .filters {
     flex-direction: column;
@@ -118,20 +165,33 @@
 
 <body>
 <div class="filters">
-  <select id="driverFilter">
-    <option value="">All Drivers</option>
-  </select>
 
-  <input type="date" id="dateFilter">
+  <div class="filter-item">
+    <label>Driver</label>
+    <select id="driverFilter">
+      <option value="">All Drivers</option>
+    </select>
+  </div>
 
-  <input type="month" id="monthFilter">
+  <div class="filter-item">
+    <label>Payment Date</label>
+    <input type="date" id="dateFilter">
+  </div>
+
+  <div class="filter-item">
+    <label>Payment Month</label>
+    <input type="month" id="monthFilter">
+  </div>
 
   <button class="reset-btn" onclick="resetFilters()">Reset</button>
+
 </div>
-
 <div class="card">
-
-  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+    <div id="loader" class="loader-wrapper">
+      <div class="spinner"></div>
+      <p>Loading data...</p>
+    </div>
+  <button class="back-btn" onclick="location.href='driver-cost.html'">⬅ Back</button>
 
   <h2>📜 Driver Salary History</h2>
 
@@ -161,7 +221,15 @@ if (localStorage.getItem("loggedIn") !== "true") {
   window.location.href = "login.html";
 }
 </script>
+  <script>
+    function showLoader() {
+  document.getElementById("loader").style.display = "block";
+}
 
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+  </script>
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwOT_jTPjNPoyPdatEuTzLgtsavZ3HNITJG-yvFR_fnTmDGB-hx2qlN_aMPgqKFVMiH/exec";
 let salaryData = [];
@@ -180,16 +248,20 @@ function formatTime(v) {
   });
 }
 
-/* LOAD DATA */
-fetch(`${WEB_APP_URL}?action=salaryHistory`)
+showLoader();
+
+fetch(WEB_APP_URL + "?action=salaryHistory")
   .then(res => res.json())
   .then(data => {
-    salaryData = data;
-    populateDriverFilter(data);
     renderTable(data);
+  })
+  .catch(() => {
+    alert("Failed to load data");
+  })
+  .finally(() => {
+    hideLoader();
   });
 
-/* POPULATE DRIVER DROPDOWN */
 function populateDriverFilter(data) {
   const driverSelect = document.getElementById("driverFilter");
   const drivers = [...new Set(data.map(d => d["Driver Name"]))];
@@ -213,12 +285,10 @@ function applyFilters() {
 
   let filtered = salaryData.filter(row => {
 
-    // DRIVER FILTER
     if (driver && row["Driver Name"] !== driver) {
       return false;
     }
 
-    // PAYMENT DATE FILTER (DATE-WISE)
     if (selectedDate) {
       const paymentDate = getLocalDateString(row["Payment Date"]);
       if (paymentDate !== selectedDate) {
@@ -226,7 +296,6 @@ function applyFilters() {
       }
     }
 
-    // MONTH FILTER (PAYMENT DATE MONTH)
     if (selectedMonth) {
       const paymentMonth = getLocalDateString(row["Payment Date"]).slice(0, 7);
       if (paymentMonth !== selectedMonth) {
@@ -234,14 +303,12 @@ function applyFilters() {
       }
     }
 
-    return true; // PASSES ALL ACTIVE FILTERS
+    return true; 
   });
 
   renderTable(filtered);
 }
 
-
-/* RESET FILTERS */
 function resetFilters() {
   document.getElementById("driverFilter").value = "";
   document.getElementById("dateFilter").value = "";
@@ -257,7 +324,6 @@ function getLocalDateString(value) {
   return `${year}-${month}-${day}`; // YYYY-MM-DD
 }
 
-/* RENDER TABLE */
 function renderTable(data) {
   const tbody = document.querySelector("#historyTable tbody");
   tbody.innerHTML = "";
