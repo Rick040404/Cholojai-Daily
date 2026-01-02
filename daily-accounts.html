@@ -126,7 +126,6 @@ button{
 <div class="total-box" id="profitBox">Profit: ₹0</div>
 <input type="hidden" name="profit" id="profitInput">
 
-<!-- hidden combined trip details -->
 <input type="hidden" name="trip_details" id="tripDetails">
 
 <button type="submit">Save Daily Account</button>
@@ -155,7 +154,6 @@ const tripDetailsInput = document.getElementById("tripDetails");
 /* ===== DEFAULT DATE ===== */
 dateField.value = new Date().toISOString().split("T")[0];
 
-/* ===== CREATE DEFAULT 1 TRIP ===== */
 createTrips(1);
 
 tripSelect.addEventListener("change", () => {
@@ -188,7 +186,6 @@ function createTrips(count){
   }
 }
 
-/* ===== CALCULATE PROFIT ===== */
 document.addEventListener("input", calculateProfit);
 
 function calculateProfit(){
@@ -202,11 +199,9 @@ function calculateProfit(){
   profitInput.value = profit;
 }
 
-/* ===== SUBMIT TO GOOGLE SHEET ===== */
 document.getElementById("dailyForm").addEventListener("submit",function(e){
   e.preventDefault();
 
-  // collect trip details
   let details = [];
   document.querySelectorAll(".trip-box").forEach((box,i)=>{
     const from = box.querySelectorAll(".location")[0].value;
