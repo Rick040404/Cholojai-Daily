@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chalo Yai Tour & Travels - Fancy Billing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Galada&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #1a237e; /* Deep Blue */
+            --accent-color: #d81b60; /* Fancy Pink/Red */
+            --text-color: #2c3e50;
+            --bg-color: #fce4ec; /* Light pinkish bg for screen only */
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            background: #fff;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            position: relative;
+        }
+
+        /* Watermark-like border effect */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px dashed var(--accent-color);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 3px double var(--primary-color);
+            padding-bottom: 15px;
+        }
+        .mob-no {
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--accent-color);
+        }
+        
+        /* Fancy Font Classes */
+        .fancy-en {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            color: var(--primary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+        .fancy-bn {
+            font-family: 'Galada', cursive;
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .sub-header {
+            font-size: 0.95em;
+            margin: 10px 0;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        .proprietor {
+            font-weight: bold;
+            margin: 5px 0;
+            color: var(--accent-color);
+            font-size: 1.1em;
+        }
+        .address {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Customer Info */
+        .customer-info { margin-bottom: 25px; }
+        .info-row { display: flex; margin-bottom: 12px; align-items: center; }
+        .info-row label { 
+            font-weight: bold; 
+            margin-right: 10px; 
+            min-width: 70px; 
+            color: var(--primary-color);
+        }
+        .info-row input, .date-row input { 
+            flex-grow: 1; 
+            border: none; 
+            border-bottom: 1px dotted var(--accent-color); 
+            outline: none; 
+            padding: 5px; 
+            font-size: 1.1em;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+        }
+        .date-row { display: flex; justify-content: flex-end; align-items: center; }
+        .date-row label { font-weight: bold; margin-right: 10px; color: var(--primary-color); }
+        .date-row input { width: 150px; text-align: center; }
+
+        /* Table Section */
+        .table-title {
+            text-align: center;
+            font-family: 'Galada', cursive;
+            font-size: 1.5em;
+            color: #fff;
+            background-color: var(--primary-color);
+            display: inline-block;
+            padding: 5px 30px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        
+        th, td { 
+            border: 1px solid var(--primary-color); 
+            padding: 8px; 
+            text-align: center; 
+            vertical-align: middle; 
+        }
+        
+        th { 
+            color: #fff; 
+            font-weight: 600; 
+            background-color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        td input {
+            width: 95%;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-size: 1em;
+            background: transparent;
+            padding: 5px 0;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        td input:focus { border-bottom: 2px solid var(--accent-color); }
+
+        /* Buttons */
+        .btn-group { text-align: right; margin-bottom: 20px; }
+        button { 
+            padding: 10px 25px; 
+            margin-left: 10px; 
+            cursor: pointer; 
+            font-size: 1em; 
+            border: none; 
+            border-radius: 50px; 
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.05); }
+        .add-btn { background-color: #00c853; color: white; }
+        .print-btn { background-color: var(--accent-color); color: white; }
+
+        /* Financials */
+        .totals-section { display: flex; flex-direction: column; align-items: flex-end; margin-top: 20px; }
+        .total-row { display: flex; align-items: center; margin-bottom: 10px; width: 320px; justify-content: space-between; }
+        .total-row label { 
+            font-weight: bold; 
+            color: var(--primary-color); 
+            font-size: 1.2em; 
+            font-family: 'Poppins', sans-serif;
+        }
+        .total-row input { 
+            border: none; 
+            border-bottom: 2px solid var(--primary-color); 
+            outline: none; 
+            text-align: right; 
+            font-size: 1.3em; 
+            padding: 5px; 
+            width: 160px; 
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        /* FOOTER ALIGNMENT FIX */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;   /* IMPORTANT */
+    margin-top: 60px;
+}
+
+.signature-box {
+    width: 220px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Stamp & Sign images */
+.stamp-img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.sign-img {
+    width: 120px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.signature-line {
+    width: 100%;
+    border-top: 2px solid var(--primary-color);
+    margin: 6px 0 4px;
+}
+        /* --- PRINT SETTINGS (FIXED SINGLE PAGE) --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 5mm 10mm; /* Small margins */
+            }
+
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            body, html { 
+                margin: 0; 
+                padding: 0; 
+                background: #fff;
+                height: auto; 
+            }
+            
+            .container { 
+                box-shadow: none; 
+                border: 2px solid var(--primary-color); 
+                max-width: 100%; 
+                margin: 0;
+                padding: 15px; 
+                height: auto !important; /* Let content decide height */
+                min-height: 0 !important;
+                display: block;
+            }
+            
+            /* Hide decorative elements */
+            .container::before { display: none; }
+            .btn-group { display: none; }
+            
+            input::placeholder { color: transparent; }
+            
+            /* Compact spacing for print */
+            header { margin-bottom: 10px; padding-bottom: 5px; }
+            .customer-info { margin-bottom: 10px; }
+            .table-title { margin-bottom: 5px; }
+            table { margin-bottom: 10px; }
+            .footer { margin-top: 20px; } /* Pull footer up */
+            
+            /* Text resizing if needed */
+            .fancy-en { font-size: 2.5em; }
+            .fancy-bn { font-size: 2em; }
+        }
+    /* TEXTAREA FIX FOR FROM / TO / PURPOSE */
+td textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95em;
+    line-height: 1.3;
+    padding: 4px;
+    background: transparent;
+}
+
+/* Auto expand textarea height */
+td textarea:focus {
+    outline: none;
+}
+
+/* Align text properly */
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(6) {
+    text-align: left;
+}
+table {
+    table-layout: auto !important;
+}
+@media print {
+
+    /* Hide input borders */
+    input {
+        border: none !important;
+        background: transparent !important;
+    }
+
+    /* Replace inputs with text behavior */
+    td input {
+        width: 100%;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow: visible !important;
+    }
+
+}
+.stamp-img {
+    width: 90px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.sign-img {
+    width: 120px;
+    margin-bottom: 5px;
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="mob-no">Mob : - 9153302517</div>
+        <h1 class="fancy-bn">চলো যাই ট্যুর এণ্ড ট্রাভেলস্</h1>
+        <h1 class="fancy-en">Chalo Yai Tour & Travels</h1>
+        
+        <p class="sub-header">ভারতের যে কোন জায়গায় ভ্রমন বা অনুষ্ঠানের জন্য AC/Non AC (5&7) সিটের নতুন গাড়ি ভাড়া পাওয়া যায়।</p>
+        <p class="proprietor">প্রোঃ - অমিত থোরট</p>
+        <p class="address">কাড়ালাঘাট : জামালপুর : পূর্ব বর্ধমান</p>
+    </header>
+
+    <div class="customer-info">
+        <div class="info-row">
+            <label>নাম (Name):</label>
+            <input type="text" id="cust-name">
+        </div>
+        <div class="info-row">
+            <label>ঠিকানা (Address):</label>
+            <input type="text" id="cust-address">
+        </div>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div class="info-row" style="flex: 2; min-width: 200px;">
+                <label>মোবাইল নং:</label>
+                <input type="text" id="cust-mobile">
+            </div>
+            <div class="date-row" style="flex: 1; min-width: 200px;">
+                <label>তারিখ (Date):</label>
+                <input type="date" id="bill-date">
+            </div>
+        </div>
+    </div>
+
+    <div class="table-title">
+        -ঃ গাড়ি বুকিং-এর বিবরণ ঃ-
+    </div>
+
+    <div class="btn-group">
+        <button class="add-btn" onclick="addRow()">+ Add New Row</button>
+    </div>
+
+    <table id="booking-table">
+        <thead>
+          <tr>
+            <th rowspan="2">SL.</th>
+            <th colspan="2">Description</th>
+            <th rowspan="2">Car No.</th>
+            <th rowspan="2">Date</th>
+            <th rowspan="2">Purpose</th>
+            <th rowspan="2">Rent (₹)</th>
+          </tr>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+        </tr>
+</thead>
+
+        <tbody>
+        </tbody>
+    </table>
+
+    <div class="totals-section">
+        <div class="total-row">
+            <label>Total : -</label>
+            <input type="number" id="total-amount" readonly placeholder="0.00">
+        </div>
+        <div class="total-row">
+            <label>Advance : -</label>
+            <input type="number" id="advance-amount" oninput="calculateTotals()" placeholder="0.00">
+        </div>
+        <div class="total-row">
+            <label style="color: #d32f2f;">Due : -</label>
+            <input type="number" id="due-amount" readonly placeholder="0.00" style="color: #d32f2f;">
+        </div>
+    </div>
+
+  <div class="footer">
+    <div class="signature-box">
+        <img src="stamp.png" class="stamp-img" alt="Stamp">
+        <div class="signature-line"></div>
+        <div class="signature-text">Stamp</div>
+    </div>
+
+    <div class="signature-box">
+        <img src="sign.png" class="sign-img" alt="Signature">
+        <div class="signature-line"></div>
+        <div class="signature-text">Sign</div>
+    </div>
+</div>
+
+    <div class="btn-group" style="text-align: center; margin-top: 40px;">
+       <button class="print-btn" onclick="prepareForPrint(); window.print();">Download PDF / Print</button>
+
+    </div>
+<script>
+    document.getElementById('bill-date').valueAsDate = new Date();
+    let rowCount = 0;
+
+    function addRow() {
+        rowCount++;
+        const tableBody = document.getElementById('booking-table').getElementsByTagName('tbody')[0];
+        const newRow = tableBody.insertRow();
+
+        newRow.innerHTML = `
+    <td>${rowCount}</td>
+    <td><textarea rows="1"></textarea></td>
+    <td><textarea rows="1"></textarea></td>
+    <td><input type="text"></td>
+    <td><input type="date"></td>
+    <td><textarea rows="1"></textarea></td>
+    <td><input type="number" class="rent-input" oninput="calculateTotals()" placeholder="0.00"></td>
+`;
+
+    }
+
+    function calculateTotals() {
+        let total = 0;
+        const rentInputs = document.getElementsByClassName('rent-input');
+
+        for (let i = 0; i < rentInputs.length; i++) {
+            let val = parseFloat(rentInputs[i].value);
+            if (!isNaN(val)) {
+                total += val;
+            }
+        }
+
+        document.getElementById('total-amount').value = total.toFixed(2);
+
+        let advance = parseFloat(document.getElementById('advance-amount').value);
+        if (isNaN(advance)) {
+            advance = 0;
+        }
+
+        let due = total - advance;
+        document.getElementById('due-amount').value = due.toFixed(2);
+    }
+    document.addEventListener('input', function (e) {
+    if (e.target.tagName === 'TEXTAREA') {
+        e.target.style.height = 'auto';
+        e.target.style.height = e.target.scrollHeight + 'px';
+    }
+});
+
+    // Initialize with one row
+    window.onload = addRow;
+</script>
+<script>
+function prepareForPrint() {
+    document.querySelectorAll("td input, td textarea").forEach(el => {
+        const span = document.createElement("span");
+        span.textContent = el.value;
+        span.style.whiteSpace = "normal";
+        span.style.wordBreak = "break-word";
+        span.style.display = "block";
+        el.parentNode.replaceChild(span, el);
+    });
+}
+
+window.onbeforeprint = prepareForPrint;
+</script>
+</body>
+</html>
