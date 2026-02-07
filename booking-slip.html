@@ -333,13 +333,48 @@ table {
     width: 120px;
     margin-bottom: 5px;
 }
+.phonepe-icon{
+    width:18px;
+    height:18px;
+    vertical-align:middle;
+    margin-left:6px;
+}
+.mob-no{
+    text-align:right;
+}
+
+.mob-row{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+}
+
+.phonepe-icon{
+    width:36px;        /* bigger */
+    height:36px;
+}
+
+.second-no{
+    justify-content:flex-end;
+    margin-right:46px; /* aligns under first number properly */
+}
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div class="mob-no">Mob : - 9153302517</div>
+       <div class="mob-no">
+    <div class="mob-row">
+        <span>Mob : - 9153302517</span>
+        <img src="phonepe.png" class="phonepe-icon">
+    </div>
+    <div class="mob-row second-no">
+        6296267402
+    </div>
+</div>
         <h1 class="fancy-bn">চলো যাই ট্যুর এণ্ড ট্রাভেলস্</h1>
         <h1 class="fancy-en">Chalo Yai Tour & Travels</h1>
         
